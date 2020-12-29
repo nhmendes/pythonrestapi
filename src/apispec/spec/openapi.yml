@@ -1,0 +1,23 @@
+openapi: '3.0.2'
+info:
+  title: Users management API
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /users:
+    get:
+      components:
+        schemas:
+          User:
+            properties:
+              user_id:
+                description: User unique identifier
+                type: string
+                format: uuid
+                readOnly: true
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
