@@ -3,8 +3,15 @@ from flask import request, jsonify, Blueprint
 from http import HTTPStatus
 from flask_jwt_extended import jwt_required
 
+from src.presentation.container.containers import container
 
+
+# blueprints
 users_api = Blueprint('users_api', __name__)
+
+
+# use cases
+update_user = container.update_user()
 
 
 @users_api.route('/', methods=['GET'])
@@ -63,7 +70,7 @@ def delete(user_id: int):
 @jwt_required
 def put(user_id: int):
     """ Replaces the stored representation of the User with the request User """
-    print("updated")
+    update_user.update()
     return jsonify(), HTTPStatus.NO_CONTENT, {'location': f'/users/{user_id}'}
 
 

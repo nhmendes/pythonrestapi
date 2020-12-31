@@ -1,14 +1,21 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
+from src.presentation.container.containers import Container
 from src.presentation.controllers.users_controller import users_api
 from src.presentation.controllers.login_controller import login_api
 
 
 ENV_FILE_LOCATION='src/config/.env'
 
+
+container = Container()
+container.config.from_yaml('src/presentation/config/config.yaml')
+
+
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+# app.container = container
 
 
 # setup JWT
