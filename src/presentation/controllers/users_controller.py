@@ -1,9 +1,15 @@
 import json
-from flask import request, jsonify, Blueprint
+import uuid
 from http import HTTPStatus
+from dataclasses import dataclass
+from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required
 
 from src.presentation.container.containers import container
+from src.presentation.controllers.error import ApiError
+from src.domain.domainmodel.user import User
+from src.domain.domainmodel.email import Email
+from src.domain.domainmodel.exceptions.invalid_email import InvalidEmail
 
 
 # blueprints
@@ -12,6 +18,24 @@ users_api = Blueprint('users_api', __name__)
 
 # use cases
 update_user = container.update_user()
+
+
+@dataclass
+class UpdateUserRequest:
+    user_id: uuid
+    username: str
+    email: str
+
+    def to_domain(self):
+        return User(self.user_id, self.username, Email(self.email))
+
+
+@users_api.errorhandler(ApiError)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
 
 
 @users_api.route('/', methods=['GET'])
@@ -57,8 +81,8 @@ def post():
 @users_api.route('/<int:user_id>', methods=['DELETE'])
 @jwt_required
 def delete(user_id: int):
-    """ 
-    Deletes a user 
+    """
+    Deletes a user
     if user is not found, returns a 404 NOT_FOUND http status code
     """
     print(user_id)
@@ -70,8 +94,19 @@ def delete(user_id: int):
 @jwt_required
 def put(user_id: int):
     """ Replaces the stored representation of the User with the request User """
-    update_user.update()
-    return jsonify(), HTTPStatus.NO_CONTENT, {'location': f'/users/{user_id}'}
+
+    try:
+        record = json.loads(request.data)
+        update_request = UpdateUserRequest(record["user_id"], record["username"], record["email"])
+        update_user.execute(update_request.to_domain())
+    except KeyError as error:
+        raise ApiError("invalid property", HTTPStatus.BAD_REQUEST) from error
+    except InvalidEmail as error:
+        raise ApiError(error.message, HTTPStatus.BAD_REQUEST) from error
+    except Exception as error: # pylint: disable=broad-except
+        raise ApiError("an error occured", HTTPStatus.INTERNAL_SERVER_ERROR) from error
+    else:
+        return jsonify(), HTTPStatus.NO_CONTENT, {'location': f'/users/{user_id}'}
 
 
 @users_api.route('/<int:user_id>/roles', methods=['POST'])
@@ -82,7 +117,7 @@ def post_role(user_id: int):
     print(record)
 
     new_record = {
-        'user_id': 123,
+        'user_id': user_id,
         'role_id': record.role_id
     }
 
@@ -93,7 +128,7 @@ def post_role(user_id: int):
 @jwt_required
 def get_role(user_id: int):
     """ Get all roles for a given user """
-    
+
     roles = [{
         'id': 'role_id_1',
         'name': 'role #1'

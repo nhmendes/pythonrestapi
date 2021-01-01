@@ -25,14 +25,14 @@ app.config.from_pyfile(ENV_FILE_LOCATION)
 
 
 # Setup Login API
-login_api_version = '/'
-login_url_prefix = f'/login{login_api_version}'
+LOGIN_API_VERSION = '/'
+login_url_prefix = f'/login{LOGIN_API_VERSION}'
 app.register_blueprint(login_api, url_prefix=login_url_prefix)
 
 
 # Setup Users API
-users_api_version = '/'
-users_url_prefix = f'/users{users_api_version}'
+USERS_API_VERSION = '/'
+users_url_prefix = f'/users{USERS_API_VERSION}'
 app.register_blueprint(users_api, url_prefix=users_url_prefix)
 
 
