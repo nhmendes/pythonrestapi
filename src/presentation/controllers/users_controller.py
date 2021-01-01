@@ -1,5 +1,8 @@
+""" Users Controller """
+
 import json
 import uuid
+import asyncio
 from http import HTTPStatus
 from dataclasses import dataclass
 from flask import request, jsonify, Blueprint
@@ -22,16 +25,20 @@ update_user = container.update_user()
 
 @dataclass
 class UpdateUserRequest:
+    """ Represents a User update request """
+
     user_id: uuid
     username: str
     email: str
 
     def to_domain(self):
+        """ Converts from UpdateUserRequest to the domain User datatype """
         return User(self.user_id, self.username, Email(self.email))
 
 
 @users_api.errorhandler(ApiError)
 def handle_invalid_usage(error):
+    """ This method handles invalid endpoint usage errors """
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
@@ -129,6 +136,8 @@ def post_role(user_id: int):
 def get_role(user_id: int):
     """ Get all roles for a given user """
 
+    print(user_id)
+
     roles = [{
         'id': 'role_id_1',
         'name': 'role #1'
@@ -144,4 +153,8 @@ def get_role(user_id: int):
 @jwt_required
 def delete_role(user_id: int, role_id: str):
     """ Removes a role from a user """
+
+    print(user_id)
+    print(role_id)
+
     return jsonify(), HTTPStatus.NO_CONTENT

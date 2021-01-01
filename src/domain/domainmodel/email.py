@@ -1,10 +1,15 @@
+""" Email """
+
 import re
 from dataclasses import dataclass
+
 from src.domain.domainmodel.exceptions.invalid_email import InvalidEmail
 
 
 @dataclass
 class Email:
+    """ This class represents the Email datatype """
+
     value: str
 
     """ Email value object """

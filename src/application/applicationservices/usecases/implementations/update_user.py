@@ -7,7 +7,7 @@ from src.domain.domaincore.command import Command
 from src.domain.domainmodel.user import User
 
 
-class UpdateUser(Command[User]):
+class UpdateUser(Command[User, None]):
     """
     Update user UseCase
     """
@@ -15,7 +15,7 @@ class UpdateUser(Command[User]):
     def __init__(self, users_gateway: UsersGateway):
         self._users_gateway = users_gateway
 
-    def execute(self, args: User):
+    def execute(self, args: User) -> None:
         """
         Executes the usecase. This will replace the existing
         user with a new representation of the user.
