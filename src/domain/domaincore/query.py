@@ -1,11 +1,21 @@
+""" generic query """
+
 import abc
 from typing import TypeVar, Generic
 
 
-T = TypeVar('T')
-U = TypeVar('U')
+TInput = TypeVar('TInput')
+TOutput = TypeVar('TOutput')
 
 
-class Query(Generic[T, U], metaclass=abc.ABCMeta):
-    def execute(self, args: T) -> U:
-        pass
+class Query(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disable=too-few-public-methods
+    """
+    Represents a readonly action. This action DOES NOT mutate
+    the state of the system (get, query).
+    """
+
+    def execute(self, args: TInput) -> TOutput:
+        """
+        Execute method for the query.
+        This method should be implemented by the child class.
+        """

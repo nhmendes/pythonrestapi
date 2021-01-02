@@ -2,14 +2,14 @@
 
 import json
 import uuid
-import asyncio
 from http import HTTPStatus
 from dataclasses import dataclass
+
 from flask import request, jsonify, Blueprint
 from flask_jwt_extended import jwt_required
 
-from src.presentation.container.containers import container
-from src.presentation.controllers.error import ApiError
+from src.presentation.container.ioc_container import container
+from src.presentation.controllers.api_error import ApiError
 from src.domain.domainmodel.user import User
 from src.domain.domainmodel.email import Email
 from src.domain.domainmodel.exceptions.invalid_email import InvalidEmail
@@ -42,7 +42,6 @@ def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
-
 
 
 @users_api.route('/', methods=['GET'])

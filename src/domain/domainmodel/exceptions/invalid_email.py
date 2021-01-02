@@ -1,3 +1,5 @@
+""" Invalid Email Exception """
+
 class InvalidEmail(Exception):
     """Exception raised for invalid email formats.
 

@@ -8,7 +8,7 @@ TInput = TypeVar('TInput')
 TOutput = TypeVar('TOutput')
 
 
-class Command(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disable=too-few-public-methods 
+class Command(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disable=too-few-public-methods
     """
     Represents a mutable action. This action mutates
     the state of the system (create, update, delete).

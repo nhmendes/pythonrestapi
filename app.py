@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
-from src.presentation.container.containers import Container
+from src.presentation.container.ioc_container import Container
 from src.presentation.controllers.users_controller import users_api
 from src.presentation.controllers.login_controller import login_api
 

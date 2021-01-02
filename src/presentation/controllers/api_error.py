@@ -1,7 +1,5 @@
 """ ApiError """
 
-from dataclasses import dataclass
-
 
 class ApiError(Exception):
     """ Represents an ApiError to return to the client app """

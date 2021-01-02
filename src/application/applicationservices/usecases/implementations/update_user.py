@@ -7,7 +7,7 @@ from src.domain.domaincore.command import Command
 from src.domain.domainmodel.user import User
 
 
-class UpdateUser(Command[User, None]):
+class UpdateUser(Command[User, None]): # pylint: disable=too-few-public-methods
     """
     Update user UseCase
     """

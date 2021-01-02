@@ -1,6 +1,15 @@
+""" Users adapter """
+
+
 class UserAdapter:
-    def to_domain(self):
+    """ User data type adapter from and to domain """
+
+    @staticmethod
+    def to_domain():
+        """ converts a database User data type model to the domain User representation """
         print("adapted from db model to domain")
 
-    def to_db_model(self):
+    @staticmethod
+    def to_db_model():
+        """ converts a domain User data type model to the database User representation """
         print("adapted from domain to db model")
