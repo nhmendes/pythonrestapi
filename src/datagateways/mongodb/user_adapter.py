@@ -1,7 +1,7 @@
 """ Users adapter """
 
 
-from domain.domainmodel.user import User
+from src.domain.domainmodel.user import User
 
 
 class UserAdapter:
