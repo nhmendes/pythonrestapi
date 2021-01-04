@@ -1,11 +1,14 @@
 """ Users adapter """
 
 
+from domain.domainmodel.user import User
+
+
 class UserAdapter:
     """ User data type adapter from and to domain """
 
     @staticmethod
-    def to_domain():
+    def to_domain() -> User:
         """ converts a database User data type model to the domain User representation """
         print("adapted from db model to domain")
 
