@@ -56,9 +56,9 @@ def query():
     return jsonify(name), HTTPStatus.OK
 
 
-@users_api.route('/<int:user_id>', methods=['GET'])
+@users_api.route('/<string:user_id>', methods=['GET'])
 @jwt_required
-def get(user_id: int):
+def get(user_id: str):
     """ Retrieve user details """
 
     user = {
@@ -84,9 +84,9 @@ def post():
     return jsonify(), HTTPStatus.CREATED, {'location': f'/users/{new_record["id"]}'}
 
 
-@users_api.route('/<int:user_id>', methods=['DELETE'])
+@users_api.route('/<string:user_id>', methods=['DELETE'])
 @jwt_required
-def delete(user_id: int):
+def delete(user_id: str):
     """
     Deletes a user
     if user is not found, returns a 404 NOT_FOUND http status code
@@ -96,9 +96,9 @@ def delete(user_id: int):
     return jsonify(), HTTPStatus.NO_CONTENT
 
 
-@users_api.route('/<int:user_id>', methods=['PUT'])
+@users_api.route('/<string:user_id>', methods=['PUT'])
 @jwt_required
-def put(user_id: int):
+def put(user_id: str):
     """ Replaces the stored representation of the User with the request User """
 
     try:
@@ -115,9 +115,9 @@ def put(user_id: int):
         return jsonify(), HTTPStatus.NO_CONTENT, {'location': f'/users/{user_id}'}
 
 
-@users_api.route('/<int:user_id>/roles', methods=['POST'])
+@users_api.route('/<string:user_id>/roles', methods=['POST'])
 @jwt_required
-def post_role(user_id: int):
+def post_role(user_id: str):
     """ Assign a role to a user """
     record = json.loads(request.data)
     print(record)
@@ -130,9 +130,9 @@ def post_role(user_id: int):
     return jsonify(), HTTPStatus.CREATED, {'location': f'/users/{new_record["role_id"]}'}
 
 
-@users_api.route('/<int:user_id>/roles', methods=['GET'])
+@users_api.route('/<string:user_id>/roles', methods=['GET'])
 @jwt_required
-def get_role(user_id: int):
+def get_role(user_id: str):
     """ Get all roles for a given user """
 
     print(user_id)
@@ -148,9 +148,9 @@ def get_role(user_id: int):
     return jsonify(roles), HTTPStatus.OK
 
 
-@users_api.route('/<int:user_id>/roles/<string:role_id>', methods=['DELETE'])
+@users_api.route('/<string:user_id>/roles/<string:role_id>', methods=['DELETE'])
 @jwt_required
-def delete_role(user_id: int, role_id: str):
+def delete_role(user_id: str, role_id: str):
     """ Removes a role from a user """
 
     print(user_id)

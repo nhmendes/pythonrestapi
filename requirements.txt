@@ -1,5 +1,15 @@
+dependency_injector
+PyYAML
+
+
 flask
 Flask-RESTful
 flask-jwt-extended
-dependency_injector
-PyYAML
+
+
+uvicorn
+fastapi
+pydantic
+pydantic[dotenv]
+python-jose
+python-multipart
