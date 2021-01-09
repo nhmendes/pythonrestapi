@@ -12,4 +12,5 @@ class User:
 
     user_id: uuid
     username: str
+    name: str
     email: Email

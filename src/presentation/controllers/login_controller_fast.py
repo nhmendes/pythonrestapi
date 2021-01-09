@@ -31,6 +31,7 @@ def get_user(username: str):
         'user_id': username,
         'username': username,
         'name': 'nuno mendes',
+        'email': 'aaaa@aaaa.com',
         'disabled': False
     }
 
@@ -39,6 +40,7 @@ def authenticate_user(username: str, password: str):
     data = {
         'user_id': username,
         'username': username,
+        'email': 'aaaa@aaaa.com',
         'name': 'nuno mendes'
     }
     return User(**data)

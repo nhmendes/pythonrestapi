@@ -2,8 +2,8 @@ import uvicorn
 
 from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import JSONResponse
+from src.presentation.controllers.api_error import ApiError
 
 from src.presentation.container.ioc_container import Container
 from src.presentation.controllers.login_controller_fast import token_router
@@ -18,9 +18,12 @@ app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 
-@app.exception_handler(RequestValidationError)
+@app.exception_handler(ApiError)
 async def validation_exception_handler(request, exc):
-    return PlainTextResponse(str(exc), status_code=400)
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"message": exc.message},
+    )
 
 
 app.include_router(token_router)
