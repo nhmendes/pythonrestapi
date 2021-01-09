@@ -2,10 +2,7 @@
 
 from http import HTTPStatus
 from flask import request, jsonify, Blueprint
-from flask_jwt_extended import (
-    jwt_required,
-    create_access_token
-)
+from flask_jwt_extended import create_access_token
 
 
 login_api = Blueprint('login_api', __name__)
