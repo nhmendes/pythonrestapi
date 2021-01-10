@@ -20,3 +20,6 @@ class MongoDbGateway(UsersGateway): # pylint: disable=too-few-public-methods
     def get(self, user_id: uuid):
         print(f'getting user {user_id}...')
         return self._user_adapter.to_domain()
+
+    def delete(self, user_id: uuid):
+        print("user deleted!")

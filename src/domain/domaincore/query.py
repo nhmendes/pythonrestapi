@@ -14,7 +14,7 @@ class Query(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disable=
     the state of the system (get, query).
     """
 
-    def execute(self, args: TInput) -> TOutput:
+    def execute(self, arg: TInput) -> TOutput:
         """
         Execute method for the query.
         This method should be implemented by the child class.

@@ -15,8 +15,9 @@ class Command(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disabl
     """
 
     @abc.abstractmethod
-    def execute(self, args: TInput) -> TOutput:
+    def execute(self, arg: TInput) -> TOutput:
         """
         Execute method for the command.
         This method should be implemented by the child class.
         """
+        raise NotImplementedError

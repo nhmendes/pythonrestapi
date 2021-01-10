@@ -13,6 +13,7 @@ users_router = APIRouter(prefix="/users")
 
 # use cases
 update_user_usecase = container.update_user()
+delete_user_usecase = container.delete_user()
 
 
 @users_router.get('/me', status_code=status.HTTP_200_OK)
@@ -66,3 +67,14 @@ def update_user(user: User, dependencies=Depends(JWTBearer())):
         return Response(
             status_code=status.HTTP_204_NO_CONTENT,
             headers={'location': users_router.url_path_for('get_user_by_id', user_id=user.user_id)})
+
+
+@users_router.delete('/<string:user_id>')
+def delete(user_id: str):
+    """
+    Deletes a user
+    if user is not found, returns a 404 NOT_FOUND http status code
+    """
+    delete_user_usecase.execute(user_id)
+    return Response(
+            status_code=status.HTTP_204_NO_CONTENT)

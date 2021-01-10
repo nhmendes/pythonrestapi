@@ -16,3 +16,8 @@ class UsersGateway(ABC): # pylint: disable=too-few-public-methods
     def get(self, user_id: uuid):
         """ method to get a user """
         raise NotImplementedError
+
+    @abstractmethod
+    def delete(self, user_id: uuid):
+        """ method to get a user """
+        raise NotImplementedError

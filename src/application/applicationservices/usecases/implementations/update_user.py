@@ -15,11 +15,11 @@ class UpdateUser(Command[User, None]): # pylint: disable=too-few-public-methods
     def __init__(self, users_gateway: UsersGateway):
         self._users_gateway = users_gateway
 
-    def execute(self, args: User) -> None:
+    def execute(self, arg: User) -> None:
         """
         Executes the usecase. This will replace the existing
         user with a new representation of the user.
         """
         print("update user use case")
-        print(args)
+        print(arg)
         self._users_gateway.update()
