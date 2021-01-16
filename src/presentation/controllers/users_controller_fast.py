@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import Depends, status, APIRouter
 from fastapi.responses import JSONResponse, Response
 from fastapi.encoders import jsonable_encoder
@@ -7,6 +8,7 @@ from src.presentation.models.jwt_token import JWTBearer
 from src.presentation.container.ioc_container import container
 from src.presentation.controllers.api_error import ApiError
 from src.domain.domainmodel.exceptions.invalid_email import InvalidEmail
+from src.domain.domainmodel.user import User as DomainUser
 
 
 users_router = APIRouter(prefix="/users")
@@ -14,6 +16,16 @@ users_router = APIRouter(prefix="/users")
 # use cases
 update_user_usecase = container.update_user()
 delete_user_usecase = container.delete_user()
+get_user_by_id_usecase = container.get_user_by_id()
+
+
+class UserTypeAdapter:
+    @staticmethod
+    def from_domain(domain_user: DomainUser):
+        return User()
+
+    def to_domain(user: User):
+        return DomainUser()
 
 
 @users_router.get('/me', status_code=status.HTTP_200_OK)
@@ -24,14 +36,16 @@ def get_logged_user(active_user: User = Depends(get_current_active_user), depend
 
 
 @users_router.get('/{user_id}', status_code=status.HTTP_200_OK)
-async def get_user_by_id(user_id: str, dependencies=Depends(JWTBearer())):
+async def get_user_by_id(user_id: UUID, dependencies=Depends(JWTBearer())):
     """
     Retrieve user details
     200 OK
     404 Not Found if user is not retrieved from the service layer (response.status_code = status.HTTP_404_NOT_FOUND)
     """
-    
-    user = User(user_id=user_id, username='username', name='name', email='email')
+
+    domain_user = get_user_by_id_usecase.execute(user_id)
+
+    user = UserTypeAdapter.from_domain(domain_user=domain_user)
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
