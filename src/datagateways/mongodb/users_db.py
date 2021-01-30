@@ -7,7 +7,7 @@ from src.datagateways.mongodb.user_adapter import UserAdapter
 from src.domain.domainmodel.user import User
 
 
-class MongoDbGateway(UsersGateway): # pylint: disable=too-few-public-methods
+class MongoDbGateway(UsersGateway):
     """ mongodb gateway implementation """
 
     def __init__(self, user_adapter: UserAdapter):

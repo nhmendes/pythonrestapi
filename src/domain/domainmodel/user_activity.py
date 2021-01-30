@@ -4,8 +4,8 @@ import uuid
 from datetime import datetime
 from dataclasses import dataclass
 
-from activity_type import ActivityType
-from operative_system import OperativeSystem
+from src.domain.domainmodel.activity_type import ActivityType
+from src.domain.domainmodel.operative_system import OperativeSystem
 
 
 @dataclass

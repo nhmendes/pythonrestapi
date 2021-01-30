@@ -4,7 +4,7 @@ import uuid
 from abc import ABC, abstractmethod
 
 
-class UsersGateway(ABC): # pylint: disable=too-few-public-methods
+class UsersGateway(ABC):
     """ Data gateway interface """
 
     @abstractmethod

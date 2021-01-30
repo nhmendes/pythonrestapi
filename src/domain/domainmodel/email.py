@@ -13,6 +13,7 @@ class Email:
     value: str
 
     """ Email value object """
+
     def __init__(self, value: str):
         if self._validate_email(value) is False:
             raise InvalidEmail()

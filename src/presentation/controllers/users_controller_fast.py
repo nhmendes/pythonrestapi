@@ -58,7 +58,9 @@ def create_new_user(user: User, dependencies=Depends(JWTBearer())):
 
     new_record = user
 
-    location = users_router.url_path_for('get_user_by_id', user_id=new_record.user_id)
+    location = users_router.url_path_for(
+        'get_user_by_id', 
+        user_id=new_record.user_id)
 
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
@@ -72,11 +74,15 @@ def update_user(user: User, dependencies=Depends(JWTBearer())):
     try:
         update_user_usecase.execute(user.to_domain())
     except KeyError as error:
-        raise ApiError("invalid property", status.HTTP_400_BAD_REQUEST) from error
+        raise ApiError(
+            "invalid property",
+            status.HTTP_400_BAD_REQUEST) from error
     except InvalidEmail as error:
         raise ApiError(error.message, status.HTTP_400_BAD_REQUEST) from error
-    except Exception as error: # pylint: disable=broad-except
-        raise ApiError("an error occured", status.HTTP_500_INTERNAL_SERVER_ERROR) from error
+    except Exception as error:  # pylint: disable=broad-except
+        raise ApiError(
+            "an error occured",
+            status.HTTP_500_INTERNAL_SERVER_ERROR) from error
     else:
         return Response(
             status_code=status.HTTP_204_NO_CONTENT,
@@ -91,4 +97,4 @@ def delete(user_id: str):
     """
     delete_user_usecase.execute(user_id)
     return Response(
-            status_code=status.HTTP_204_NO_CONTENT)
+        status_code=status.HTTP_204_NO_CONTENT)

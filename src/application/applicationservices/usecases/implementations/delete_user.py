@@ -5,10 +5,9 @@ Delete user use case
 from uuid import UUID
 from src.domain.domaincore.gatewayinterfaces.users_gateway import UsersGateway
 from src.domain.domaincore.command import Command
-from src.domain.domainmodel.user import User
 
 
-class DeleteUser(Command[UUID, None]): # pylint: disable=too-few-public-methods
+class DeleteUser(Command[UUID, None]):
     """
     Delete user UseCase
     """

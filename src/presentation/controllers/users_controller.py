@@ -103,14 +103,17 @@ def put(user_id: str):
 
     try:
         record = json.loads(request.data)
-        update_request = UpdateUserRequest(record["user_id"], record["username"], record["email"])
+        update_request = UpdateUserRequest(
+            record["user_id"], record["username"], record["email"])
         update_user.execute(update_request.to_domain())
     except KeyError as error:
         raise ApiError("invalid property", HTTPStatus.BAD_REQUEST) from error
     except InvalidEmail as error:
         raise ApiError(error.message, HTTPStatus.BAD_REQUEST) from error
-    except Exception as error: # pylint: disable=broad-except
-        raise ApiError("an error occured", HTTPStatus.INTERNAL_SERVER_ERROR) from error
+    except Exception as error:  # pylint: disable=broad-except
+        raise ApiError(
+            "an error occured",
+            HTTPStatus.INTERNAL_SERVER_ERROR) from error
     else:
         return jsonify(), HTTPStatus.NO_CONTENT, {'location': f'/users/{user_id}'}
 

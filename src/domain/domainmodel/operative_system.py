@@ -9,4 +9,4 @@ class OperativeSystem(Enum):
     LINUX = "Linux"
     MAC = "Mac"
     WINDOWS = "Windows"
-    UNIDENTIFIED: "Unindentified"
+    UNIDENTIFIED = "Unidentified"

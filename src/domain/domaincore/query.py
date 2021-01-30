@@ -8,7 +8,7 @@ TInput = TypeVar('TInput')
 TOutput = TypeVar('TOutput')
 
 
-class Query(Generic[TInput, TOutput], metaclass=abc.ABCMeta): # pylint: disable=too-few-public-methods
+class Query(Generic[TInput, TOutput], metaclass=abc.ABCMeta):
     """
     Represents a readonly action. This action DOES NOT mutate
     the state of the system (get, query).

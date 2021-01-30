@@ -9,7 +9,7 @@ from src.datagateways.mongodb.users_db import MongoDbGateway
 from src.datagateways.mongodb.user_adapter import UserAdapter
 
 
-class Container(containers.DeclarativeContainer): # pylint: disable=too-few-public-methods
+class Container(containers.DeclarativeContainer):
     """ IoC Container """
 
     # Configuration

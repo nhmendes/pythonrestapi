@@ -7,7 +7,7 @@ from src.domain.domaincore.command import Command
 from src.domain.domainmodel.user import User
 
 
-class GetUserById(Command[UUID, User]): # pylint: disable=too-few-public-methods
+class GetUserById(Command[UUID, User]):
     """
     Get user by id UseCase
     """
