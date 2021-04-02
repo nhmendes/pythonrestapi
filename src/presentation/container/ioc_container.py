@@ -1,5 +1,6 @@
 """ IoC Container """
 
+from src.presentation.typeadapters.user_type_adapter import UserTypeAdapter
 from dependency_injector import providers, containers
 
 from src.application.applicationservices.usecases.implementations.update_user import UpdateUser
@@ -15,11 +16,14 @@ class Container(containers.DeclarativeContainer):
     # Configuration
     config = providers.Configuration()
 
+    # Type adapters
+    repo_user_adapter = providers.Singleton(UserAdapter)
+    controller_user_adapter = providers.Singleton(UserTypeAdapter)
+
     # Gateways
-    user_adapter = providers.Singleton(UserAdapter)
     users_gateway = providers.Factory(
         MongoDbGateway,
-        user_adapter=user_adapter)
+        user_adapter=repo_user_adapter)
 
     # Use cases
     update_user = providers.Factory(

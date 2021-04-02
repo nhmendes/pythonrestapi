@@ -6,7 +6,7 @@ from src.presentation.controllers.users_controller import users_api
 from src.presentation.controllers.login_controller import login_api
 
 
-ENV_FILE_LOCATION='src/config/.env'
+ENV_FILE_LOCATION = 'src/config/.env'
 
 
 container = Container()

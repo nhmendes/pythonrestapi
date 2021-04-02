@@ -1,6 +1,3 @@
-"""
-Get user by user_id
-"""
 from uuid import UUID
 from src.domain.domaincore.gatewayinterfaces.users_gateway import UsersGateway
 from src.domain.domaincore.command import Command
@@ -21,4 +18,11 @@ class GetUserById(Command[UUID, User]):
         """
         print("get user by id use case")
         print(arg)
-        return self._users_gateway.get(arg)
+
+        # TODO: add application business logic here
+
+        result = self._users_gateway.get(arg)
+
+        # TODO: add application business logic here
+
+        return result

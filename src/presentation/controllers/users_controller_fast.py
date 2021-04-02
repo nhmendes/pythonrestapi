@@ -1,14 +1,17 @@
+from src.presentation.typeadapters.user_type_adapter import UserTypeAdapter
 from uuid import UUID
 from fastapi import Depends, status, APIRouter
 from fastapi.responses import JSONResponse, Response
 from fastapi.encoders import jsonable_encoder
 
-from src.presentation.controllers.login_controller_fast import User, get_current_active_user
+from src.presentation.controllers.login_controller_fast import (
+    User,
+    get_current_active_user,
+)
 from src.presentation.models.jwt_token import JWTBearer
 from src.presentation.container.ioc_container import container
 from src.presentation.controllers.api_error import ApiError
 from src.domain.domainmodel.exceptions.invalid_email import InvalidEmail
-from src.domain.domainmodel.user import User as DomainUser
 
 
 users_router = APIRouter(prefix="/users")
@@ -17,19 +20,13 @@ users_router = APIRouter(prefix="/users")
 update_user_usecase = container.update_user()
 delete_user_usecase = container.delete_user()
 get_user_by_id_usecase = container.get_user_by_id()
-
-
-class UserTypeAdapter:
-    @staticmethod
-    def from_domain(domain_user: DomainUser):
-        return User()
-
-    def to_domain(user: User):
-        return DomainUser()
+controller_user_adapter = container.controller_user_adapter()
 
 
 @users_router.get('/me', status_code=status.HTTP_200_OK)
-def get_logged_user(active_user: User = Depends(get_current_active_user), dependencies=Depends(JWTBearer())):
+def get_logged_user(
+        active_user: User = Depends(get_current_active_user),
+        dependencies=Depends(JWTBearer())):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=jsonable_encoder(active_user))
@@ -40,12 +37,13 @@ async def get_user_by_id(user_id: UUID, dependencies=Depends(JWTBearer())):
     """
     Retrieve user details
     200 OK
-    404 Not Found if user is not retrieved from the service layer (response.status_code = status.HTTP_404_NOT_FOUND)
+    404 Not Found if user is not retrieved from the service layer
+        (response.status_code = status.HTTP_404_NOT_FOUND)
     """
 
     domain_user = get_user_by_id_usecase.execute(user_id)
 
-    user = UserTypeAdapter.from_domain(domain_user=domain_user)
+    user = controller_user_adapter.from_domain(domain_user=domain_user)
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
@@ -59,7 +57,7 @@ def create_new_user(user: User, dependencies=Depends(JWTBearer())):
     new_record = user
 
     location = users_router.url_path_for(
-        'get_user_by_id', 
+        'get_user_by_id',
         user_id=new_record.user_id)
 
     return JSONResponse(
@@ -70,7 +68,10 @@ def create_new_user(user: User, dependencies=Depends(JWTBearer())):
 
 @users_router.put('/')
 def update_user(user: User, dependencies=Depends(JWTBearer())):
-    """ Replaces the stored representation of the User with the request User """
+    """
+    Replaces the stored representation
+    of the User with the request User
+    """
     try:
         update_user_usecase.execute(user.to_domain())
     except KeyError as error:
@@ -86,7 +87,11 @@ def update_user(user: User, dependencies=Depends(JWTBearer())):
     else:
         return Response(
             status_code=status.HTTP_204_NO_CONTENT,
-            headers={'location': users_router.url_path_for('get_user_by_id', user_id=user.user_id)})
+            headers={
+                'location': users_router.url_path_for(
+                    'get_user_by_id',
+                    user_id=user.user_id),
+                })
 
 
 @users_router.delete('/<string:user_id>')

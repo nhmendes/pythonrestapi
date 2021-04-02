@@ -20,7 +20,8 @@ class MongoDbGateway(UsersGateway):
 
     def get(self, user_id: UUID) -> User:
         print(f'getting user {user_id}...')
-        return self._user_adapter.to_domain()
+        # return self._user_adapter.to_domain()
+        return User("e6e7a9e7-e443-40ef-a42a-9e3da9cd3920", "johndoe", "John Doe", "john@doe.com")
 
     def delete(self, user_id: UUID):
         print(f'deleting user {user_id}...')

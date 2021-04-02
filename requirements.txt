@@ -9,6 +9,7 @@ flask-jwt-extended
 
 uvicorn
 fastapi
+python-dotenv
 pydantic
 pydantic[dotenv]
 python-jose
