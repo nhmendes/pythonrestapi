@@ -98,7 +98,6 @@ def update_user(user: User, dependencies=Depends(JWTBearer())):
 def delete(user_id: str):
     """
     Deletes a user
-    if user is not found, returns a 404 NOT_FOUND http status code
     """
     delete_user_usecase.execute(user_id)
     return Response(
