@@ -11,12 +11,10 @@ from src.presentation.models.token import Token
 from src.presentation.models.user import User
 from src.presentation.models.jwt_token import create_access_token
 
-
 config = Settings()
 SECRET_KEY = config.jwt_secret_key
 ALGORITHM = config.jwt_algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = config.jwt_access_token_expires
-
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 token_router = APIRouter(prefix="/token")
@@ -28,20 +26,20 @@ class TokenData(BaseModel):
 
 def get_user(username: str):
     return {
-        'user_id': username,
-        'username': username,
-        'name': 'nuno mendes',
-        'email': 'aaaa@aaaa.com',
-        'disabled': False
+        "user_id": username,
+        "username": username,
+        "name": "nuno mendes",
+        "email": "aaaa@aaaa.com",
+        "disabled": False,
     }
 
 
 def authenticate_user(username: str, password: str):
     data = {
-        'user_id': username,
-        'username': username,
-        'email': 'aaaa@aaaa.com',
-        'name': 'nuno mendes'
+        "user_id": username,
+        "username": username,
+        "email": "aaaa@aaaa.com",
+        "name": "nuno mendes",
     }
     return User(**data)
 
@@ -67,7 +65,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
-    if current_user['disabled']:
+    if current_user["disabled"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Inactive user")
@@ -85,6 +83,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
+        data={"sub": user.username},
+        expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
